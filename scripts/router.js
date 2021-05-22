@@ -87,5 +87,6 @@ export function pushToHistory(state, entryNum) {
     default:
       history.pushState({}, '', './');
   }
+  // console.log(history)
   return history;
 }

@@ -29,12 +29,22 @@ describe('Basic user flow for SPA ', () => {
 
   it('Test3: Clicking first <journal-entry>, new URL should contain /#entry1', async () => {
     // implement test3: Clicking on the first journal entry should update the URL to contain “/#entry1”
-
+    const entry = await page.$('journal-entry');
+    await entry.click();
+    let url = page.url();
+    let flag = false;
+    if (url.includes('/#entry1')) {
+      flag = true; 
+    }
+    expect(flag).toBe(true);
   });
 
   it('Test4: On first Entry page - checking page header title', async () => {
     // implement test4: Clicking on the first journal entry should update the header text to “Entry 1” 
-
+    const title = await page.$eval('h1', (header) => {
+      return header.innerHTML;
+    });
+    expect(title).toBe("Entry 1");
   });
 
   it('Test5: On first Entry page - checking <entry-page> contents', async () => {
@@ -50,32 +60,62 @@ describe('Basic user flow for SPA ', () => {
           }
         }
       */
+    const entry = await page.$eval('entry-page', (entries) => {
+      return entries.entry;
+    }); 
+    expect(entry.title).toBe("You like jazz?")
+    expect(entry.date).toBe("4/25/2021")
+    expect(entry.content).toBe("According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway because bees don't care what humans think is impossible.")
+    expect(entry.image.src).toBe("https://i1.wp.com/www.thepopcornmuncher.com/wp-content/uploads/2016/11/bee-movie.jpg?resize=800%2C455") 
+    expect(entry.image.alt).toBe("bee with sunglasses")
 
-  }, 10000);
+  }, 10000); 
 
   it('Test6: On first Entry page - checking <body> element classes', async () => {
-    // implement test6: Clicking on the first journal entry should update the class attribute of <body> to ‘single-entry’
-
+    // implement test6: Clicking on the first journal entry should update the class attribute of <body> to ‘single-entry’ 
+    const name = await page.$eval('body', (body) => {
+      return body.className;
+    }); 
+    expect(name).toBe("single-entry")
   });
 
   it('Test7: Clicking the settings icon, new URL should contain #settings', async () => {
-    // implement test7: Clicking on the settings icon should update the URL to contain “/#settings”
-
+    // implement test7: Clicking on the settings icon should update the URL to contain “/#settings” 
+    const setting = await page.$('img[alt="settings"]');
+    await setting.click();
+    let url = page.url();
+    let flag = false;
+    if (url.includes('/#settings')) {
+      flag = true;
+    }
+    expect(flag).toBe(true);
   });
 
   it('Test8: On Settings page - checking page header title', async () => {
-    // implement test8: Clicking on the settings icon should update the header to be “Settings”
-
+    // implement test8: Clicking on the settings icon should update the header to be “Settings” 
+    const title = await page.$eval('h1', (header) => {
+      return header.innerHTML;
+    });
+    expect(title).toBe("Settings");
   });
 
   it('Test9: On Settings page - checking <body> element classes', async () => {
-    // implement test9: Clicking on the settings icon should update the class attribute of <body> to ‘settings’
-
+    // implement test9: Clicking on the settings icon should update the class attribute of <body> to ‘settings’ 
+    const name = await page.$eval('body', (body) => {
+      return body.className;
+    }); 
+    expect(name).toBe("settings") 
   });
 
   it('Test10: Clicking the back button, new URL should be /#entry1', async() => {
-    // implement test10: Clicking on the back button should update the URL to contain ‘/#entry1’
-
+    // implement test10: Clicking on the back button should update the URL to contain ‘/#entry1’ 
+    const entry = await page.goBack();
+    let url = page.url();
+    let flag = false;
+    if (url.includes('/#entry1')) {
+      flag = true; 
+    }
+    expect(flag).toBe(true);
   });
 
   // define and implement test11: Clicking the back button once should bring the user back to the home page
