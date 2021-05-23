@@ -120,7 +120,7 @@ describe('Basic user flow for SPA ', () => {
 
   // define and implement test11: Clicking the back button once should bring the user back to the home page 
   it('Test11: Clicking the back button, new URL should have no hash tag', async() => {
-    // implement test10: Clicking on the back button should update the URL to contain ‘/#entry1’ 
+    // implement test10: Clicking on the back button should update the URL to be the homepage’ 
     const entry = await page.goBack();
     // let url = page.url(); 
     expect(page.url()).toBe('http://127.0.0.1:5500/')
@@ -172,7 +172,7 @@ describe('Basic user flow for SPA ', () => {
   });
 
   // define and implement test16: Verify the entry page contents is correct when clicking on the second entry 
-  it('Test16: On first Entry page - checking <entry-page> contents', async () => {
+  it('Test16: On second Entry page - checking <entry-page> contents', async () => {
     const entry = await page.$eval('entry-page', (entries) => {
       return entries.entry;
     }); 
@@ -185,11 +185,54 @@ describe('Basic user flow for SPA ', () => {
   }, 10000); 
 
   // create your own test 17
+  //Verify the url is correct when clicking on the third entry
+  it('Test17: Clicking third <journal-entry>, new URL should contain /#entry3', async () => {
+    await page.goBack();
+    const entries = await page.$$('journal-entry'); 
+    const entry = entries[2]; 
+    await entry.click();
+    let url = page.url();
+    let flag = false;
+    if (url.includes('/#entry3')) {
+      flag = true; 
+    }
+    expect(flag).toBe(true);
+  });
 
   // create your own test 18
+  //Verify the title is current when clicking on the second entry
+  it('Test15: On third Entry page - checking page header title', async () => {
+    
+    const title = await page.$eval('h1', (header) => {
+      return header.innerHTML;
+    });
+    expect(title).toBe("Entry 3");
+  });
 
   // create your own test 19
+  //Verify the url is correct when clicking on the fourth entry
+  it('Test19: Clicking fourth <journal-entry>, new URL should contain /#entry4', async () => {
+    await page.goBack();
+    const entries = await page.$$('journal-entry'); 
+    const entry = entries[3]; 
+    await entry.click();
+    let url = page.url();
+    let flag = false;
+    if (url.includes('/#entry4')) {
+      flag = true; 
+    }
+    expect(flag).toBe(true);
+  });
+
 
   // create your own test 20
+  //Verify the title is current when clicking on the fourth entry
+  it('Test20: On fourth Entry page - checking page header title', async () => {
+    
+    const title = await page.$eval('h1', (header) => {
+      return header.innerHTML;
+    });
+    expect(title).toBe("Entry 4");
+  });
   
 });
