@@ -20,8 +20,9 @@
 5. What would your beforeAll callback look like if you wanted to start from the settings page before every test case?
    
    beforeAll(async () => {
-    await page.goto('http://127.0.0.1:5500/#settings');
+    await page.goto('http://127.0.0.1:5500'); 
+    const setting = await page.$('img[alt="settings"]');
+    await setting.click();
     await page.waitForTimeout(500);
   });
-   
 
