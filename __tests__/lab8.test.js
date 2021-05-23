@@ -118,23 +118,71 @@ describe('Basic user flow for SPA ', () => {
     expect(flag).toBe(true);
   });
 
-  // define and implement test11: Clicking the back button once should bring the user back to the home page
+  // define and implement test11: Clicking the back button once should bring the user back to the home page 
+  it('Test11: Clicking the back button, new URL should have no hash tag', async() => {
+    // implement test10: Clicking on the back button should update the URL to contain ‘/#entry1’ 
+    const entry = await page.goBack();
+    // let url = page.url(); 
+    expect(page.url()).toBe('http://127.0.0.1:5500/')
+    // let flag = false;
+    // if (url.includes('')) {
+    //   flag = true; 
+    // }
+    // expect(flag).toBe(true);
+  });
 
-
-  // define and implement test12: When the user if on the homepage, the header title should be “Journal Entries”
-
+  // define and implement test12: When the user if on the homepage, the header title should be “Journal Entries” 
+  it('Test12: On home page - header title should be Journal Entries', async () => {
+    // implement test8: Clicking on the settings icon should update the header to be “Settings” 
+    const title = await page.$eval('h1', (header) => {
+      return header.innerHTML;
+    });
+    expect(title).toBe("Journal Entries");
+  });
 
   // define and implement test13: On the home page the <body> element should not have any class attribute 
+  it('Test13: On home page - <body> element should not have any class attribute', async () => {
+    // implement test9: Clicking on the settings icon should update the class attribute of <body> to ‘settings’ 
+    const name = await page.$eval('body', (body) => {
+      return body.className;
+    }); 
+    expect(name).toBe("") 
+  });
 
+  // define and implement test14: Verify the url is correct when clicking on the second entry 
+  it('Test14: Clicking second <journal-entry>, new URL should contain /#entry2', async () => {
+    const entries = await page.$$('journal-entry'); 
+    const entry = entries[1]; 
+    await entry.click();
+    let url = page.url();
+    let flag = false;
+    if (url.includes('/#entry2')) {
+      flag = true; 
+    }
+    expect(flag).toBe(true);
+  });
 
-  // define and implement test14: Verify the url is correct when clicking on the second entry
+  // define and implement test15: Verify the title is current when clicking on the second entry 
+  it('Test15: On second Entry page - checking page header title', async () => {
+    // implement test4: Clicking on the first journal entry should update the header text to “Entry 1” 
+    const title = await page.$eval('h1', (header) => {
+      return header.innerHTML;
+    });
+    expect(title).toBe("Entry 2");
+  });
 
+  // define and implement test16: Verify the entry page contents is correct when clicking on the second entry 
+  it('Test16: On first Entry page - checking <entry-page> contents', async () => {
+    const entry = await page.$eval('entry-page', (entries) => {
+      return entries.entry;
+    }); 
+    expect(entry.title).toBe("Run, Forrest! Run!")
+    expect(entry.date).toBe("4/26/2021")
+    expect(entry.content).toBe("Mama always said life was like a box of chocolates. You never know what you're gonna get.")
+    expect(entry.image.src).toBe("https://s.abcnews.com/images/Entertainment/HT_forrest_gump_ml_140219_4x3_992.jpg") 
+    expect(entry.image.alt).toBe("forrest running")
 
-  // define and implement test15: Verify the title is current when clicking on the second entry
-
-
-  // define and implement test16: Verify the entry page contents is correct when clicking on the second entry
-
+  }, 10000); 
 
   // create your own test 17
 
