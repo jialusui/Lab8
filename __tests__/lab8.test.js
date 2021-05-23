@@ -1,6 +1,6 @@
 describe('Basic user flow for SPA ', () => {
   beforeAll(async () => {
-    await page.goto('http://127.0.0.1:5500');
+    await page.goto('http://127.0.0.1:5500'); 
     await page.waitForTimeout(500);
   });
 
@@ -8,7 +8,7 @@ describe('Basic user flow for SPA ', () => {
   it('Test1: Initial Home Page - Check for 10 Journal Entries', async () => {
     const numEntries = await page.$$eval('journal-entry', (entries) => {
       return entries.length;
-    });
+    }); 
     expect(numEntries).toBe(10);
   });
 
